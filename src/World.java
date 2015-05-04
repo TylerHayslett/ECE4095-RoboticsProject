@@ -1,7 +1,7 @@
 
 public class World {
 	double[] Location = {0, 6711000,0};		//orbit is 340km, same as ISS, radius + orbit
-	double[] Velocity = {7606.569225,0,0};		//orbital speed initialized upon startup to be circular based on mass of craft
+	double[] Velocity = {7706.569225,0,0};		//orbital speed initialized upon startup to be circular based on mass of craft
 	double[] wind; 								//Vector, startAlt, endAlt, inBand
 	double massOfEarth = 5972190000000000000000000.0;
 	double radiusOfEarth = 6371000.0;

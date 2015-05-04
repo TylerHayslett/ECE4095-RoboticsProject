@@ -17,35 +17,32 @@ public class Main{
 		
 		//sets up window
 		JFrame frame = new JFrame("Orbit Window");
+		//adds orbit printout
 		OrbitWindow o = new OrbitWindow(numsteps);
 		frame.setSize(1000, 1000);
-		//adds orbit printout
 		frame.getContentPane().add(o, BorderLayout.CENTER);
-		//frame.pack();
 		frame.setVisible(true);
 		frame.setBackground(Color.white);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		o.setFocusable(true);
 		
+		//runs actual simulation
 		runSimDeorbit();
-		//runSimWind();
 		
-		//array to send to orbit window with points in it
 		o.plotpoints(points);
-		//System.out.println("done");
 	}
 	
 	private static void runSim() {
 		
 	}
+	
+	//runs sim, agent de-orbits at right time to land on target area, target given in radians
 	public static void runSimDeorbit(){
-		
 		//Create world, start simulation, run until ground impact
 		World w = new World(new double[]{0.0, 0.0, 0.0, 16000, 7000, 0.0});
-		w.Velocity[0] = 7706.569225;
-		Agent a = new Agent(w, 5.3169743386973476);
 		
-		a.operate();
+		//new agent, radian distance to land at from starting point
+		Agent a = new Agent(w, 5.3169743386973476);
 		
 		int i = 0;
 		double alt = w.getAltitude() - 6371000.0;
@@ -60,24 +57,20 @@ public class Main{
 			points[i] = w.getLocation().clone();
 			i++;
 			a.operate();
-			//System.out.println(w.getSpeed());
 		}
-		//System.out.println(alt);
-		//System.out.println(i);
 		System.out.println("Landed at " + w.Location[0] + " " + w.Location[1] + " " + w.Location[2]);
-		System.out.println(Math.acos(w.Location[1]/w.getAltitude()));
-		System.out.println(w.getSpeed());
+		System.out.println("Speed on landing was " + w.getSpeed());
 		
 	}
+	
+	//No agent, Purely for demonstrating effect wind has on trajectory, Max jetstream speed for max altitude range
 	public static void runSimWind(){
 		
 		//Create world, start simulation, run until ground impact
 		World w = new World(new double[]{0.0, 0.0, 115.75, 16000, 7000, 0.0});
+		w.Velocity[0] = 7606.569225;
+		
 		int i = 0;
-		Agent a = new Agent(w, 2.6169743386973476);
-		
-		//a.operate();
-		
 		double alt = w.getAltitude() - 6371000.0;
 		while(alt > 0){
 			for(int k = 0; k < 5000; k++){
@@ -88,13 +81,12 @@ public class Main{
 			}
 			points[i] = w.getLocation().clone();
 			i++;
-			//a.operate();
 		}
-		//System.out.println(alt);
-		//System.out.println(i);
 		System.out.println("Landed at " + w.Location[0] + " " + w.Location[1] + " " + w.Location[2]);
 		
 	}
+	
+	//Used for Drawing maps of drag to downrange distance.
 	public static void testLoad(){
 		double maxAccel = 0;
 		for(int i = 0; i < 1000; i++){
@@ -111,6 +103,4 @@ public class Main{
 			System.out.println(Math.acos(w.Location[1]/w.getAltitude()));
 		}
 	}
-	
-	
 }

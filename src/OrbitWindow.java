@@ -17,12 +17,12 @@ public class OrbitWindow extends JPanel{
 	boolean first = true;
 	double[][] point;
 	int numsteps;
-	double theta = 0;//3.14159/2;
+	
+	//variables for scaling, zoom, and drag
+	double theta = 0;
 	int offsetx = 0;
 	int offsety = 0;
 	double scalingFactor = 1;
-	
-	int x, y;
 	
 	
 	public OrbitWindow(int _numsteps){
@@ -30,6 +30,8 @@ public class OrbitWindow extends JPanel{
         this.setOpaque(true);
         numsteps = _numsteps;
         point = new double[numsteps][3];
+        
+        //Listeners for changing viewpoint
         this.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {}
 
@@ -54,7 +56,7 @@ public class OrbitWindow extends JPanel{
 			}
         });
         this.addMouseListener(new MouseListener() {
-
+        	int x, y;
 			@Override
 			public void mouseClicked(MouseEvent e) {}
 
@@ -103,15 +105,12 @@ public class OrbitWindow extends JPanel{
 		}
 	}
 
-	//Paints a big green ball to represent earth (to scale)
+	//Paints a big gray ball to represent earth (to scale)
 	private void earth(Graphics g){
 		try {
 			g.drawImage(ImageIO.read(new File("sphere.png")), (452 + offsetx - ((int)(312 * scalingFactor))), 
 																(452 + offsety - ((int)(312 * scalingFactor))), (int)(624 * scalingFactor), (int)(624 * scalingFactor), null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("nogo");
-		}
+		} catch (IOException e) {}
 	}
 
 	//Gets point array, then repaints to add them in
